@@ -4,7 +4,7 @@ on:
     push
 
 jobs:
-    ascii_job:
+    build_job:
       runs-on: ubuntu-latest
       steps:
       - name: Checkout Repo  
@@ -17,15 +17,22 @@ jobs:
         run: |
           sudo apt-get update -y
           sudo apt-get install -y cowsay
-          
-      - name: Generate ASCII Dragon Art
-        run: |
-          cowsay -f dragon "Run for cover, I am a DRAGON.....RAWR" >> dragon.txt
-          grep -i "dragon" dragon.txt
-          cat dragon.txt
-          ls -ltra
 
-      - name: Executing Shell Script
-        run: |
-          chmod +x ascii-script.sh
-          ./ascii-script.sh
+      - name: Generate ASCII Dragon Art
+        run: cowsay -f dragon "Run for cover, I am a DRAGON.....RAWR" >> dragon.txt
+
+    test_job:
+      runs-on: ubuntu-latest
+      needs: build_job
+      steps:
+        - name: test dragon file exist
+          run: grep -i "dragon" dragon.txt
+
+    deploy_fob:
+      runs-on: ubuntu-latest
+      needs: test_job
+      steps:
+          - name: read from file
+            run: cat dragon.txt
+  
+
