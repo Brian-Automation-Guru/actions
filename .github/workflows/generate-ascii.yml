@@ -19,7 +19,9 @@ jobs:
           sudo apt-get install -y cowsay
 
       - name: Generate ASCII Dragon Art
-        run: cowsay -f dragon "Run for cover, I am a DRAGON.....RAWR" >> dragon.txt
+        run: |
+          chmod +x dragon.txt
+          cowsay -f dragon "Run for cover, I am a DRAGON.....RAWR" >> dragon.txt
 
     test_job:
       runs-on: ubuntu-latest
